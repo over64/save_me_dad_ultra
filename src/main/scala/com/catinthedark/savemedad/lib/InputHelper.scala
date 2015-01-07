@@ -14,4 +14,5 @@ trait InputHelper {
       }
     })
   }
+  def unregister() = Gdx.input.setInputProcessor(null)
 }

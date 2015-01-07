@@ -8,45 +8,49 @@ import com.catinthedark.savemedad.lib._
  * Created by over on 13.12.14.
  */
 class SaveMeDadUltra extends Game {
-  val machine = new RouteMachine()
+  implicit val rm = new RouteMachine()
 
-  lazy val logoState = new Stub("LogoState", machine) with TextureState with DelayState {
-    val texture: Texture = Assets.Textures.logo
-    val delay: Float = 1.0f
-  }
+  def keyAwait(name: String, tex: Texture, key : Int = Input.Keys.ENTER)(implicit machine: RouteMachine) =
+    new Stub(name, machine) with TextureState with KeyAwaitState {
+      val texture: Texture = tex
+      val keycode: Int = key
+    }
 
-  lazy val menuState = new Stub("MenuState", machine) with TextureState with KeyAwaitState {
-    val texture: Texture = Assets.Textures.logo
-    val keycode: Int = Input.Keys.ENTER
-  }
-
-  lazy val gameState = new GameState(machine)
-
-  lazy val gameOverState = new Stub("GameOverState", machine) with TextureState with KeyAwaitState {
-    val texture: Texture = Assets.Textures.logo
-    val keycode: Int = Input.Keys.ESCAPE
-  }
-
-  lazy val gameWinState = new Stub("GameWinState", machine) with TextureState with KeyAwaitState {
-    val texture: Texture = Assets.Textures.logo
-    val keycode: Int = Input.Keys.ESCAPE
-  }
+  def delayed(name: String, tex: Texture, _delay: Float)(implicit machine: RouteMachine) =
+    new Stub(name, machine) with TextureState with DelayState {
+      val texture: Texture = tex
+      val delay: Float = _delay
+    }
 
   override def create() = {
-    machine.addRoute(logoState, anyway => menuState)
-    machine.addRoute(menuState, anyway => gameState)
-    machine.addRoute(gameState, res => {
+
+    val logo = delayed("Logo", Assets.Textures.logo, 1.0f)
+    val t1 = keyAwait("Tutorial1", Assets.Textures.t1)
+    val t2 = keyAwait("Tutorial2", Assets.Textures.t2)
+    val t3 = keyAwait("Tutorial3", Assets.Textures.t3)
+    val t4 = keyAwait("Tutorial4", Assets.Textures.t4)
+    val game = new GameState(rm)
+    val gameOver = keyAwait("GameOver", Assets.Textures.gameOver)
+    val gameWin = keyAwait("GameWin", Assets.Textures.gameWin)
+
+
+    rm.addRoute(logo, anyway => t1)
+    rm.addRoute(t1, anyway => t2)
+    rm.addRoute(t2, anyway => t3)
+    rm.addRoute(t3, anyway => t4)
+    rm.addRoute(t4, anyway => game)
+    rm.addRoute(game, res => {
       res match {
-        case true => gameWinState
-        case false => gameOverState
+        case true => gameWin
+        case false => gameOver
       }
     })
-    machine.addRoute(gameWinState, anyway => menuState)
-    machine.addRoute(gameOverState, anyway => menuState)
-    machine.start(logoState)
+    rm.addRoute(gameWin, anyway => t1)
+    rm.addRoute(gameOver, anyway => t1)
+    rm.start(logo)
   }
 
   override def render() = {
-    machine.run(Gdx.graphics.getDeltaTime)
+    rm.run(Gdx.graphics.getDeltaTime)
   }
 }

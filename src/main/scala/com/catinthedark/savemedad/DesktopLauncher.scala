@@ -8,8 +8,8 @@ object DesktopLauncher {
   def main (args: Array[String]) {
     val conf = new LwjglApplicationConfiguration
     conf.title = "save-me-dad-ultra"
-    conf.height = 480
-    conf.width = 800
+    conf.height = 768
+    conf.width = 1366
 
     new LwjglApplication(new SaveMeDadUltra, conf)
   }

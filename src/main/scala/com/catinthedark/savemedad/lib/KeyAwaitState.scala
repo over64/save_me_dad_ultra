@@ -13,4 +13,9 @@ trait KeyAwaitState extends Stub with InputHelper {
     })
     super.onActivate()
   }
+
+  override def onExit() = {
+    unregister()
+    super.onExit()
+  }
 }
