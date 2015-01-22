@@ -3,6 +3,7 @@ package com.catinthedark.savemedad.units
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
+import com.catinthedark.savemedad.common.Attacks
 import com.catinthedark.savemedad.common.Attacks._
 import com.catinthedark.savemedad.{CooldownIndicator, Assets, Shared}
 import com.catinthedark.savemedad.lib.{Renderable, RenderTask, Layer, ComputeUnit}
@@ -11,7 +12,7 @@ import com.catinthedark.savemedad.lib.Magic._
 /**
  * Created by over on 02.01.15.
  */
-class View(shared: Shared) extends ComputeUnit{
+class View(shared: Shared) extends ComputeUnit {
 
   val roomAndHUD = new Layer {
     val batch = new SpriteBatch
@@ -35,11 +36,10 @@ class View(shared: Shared) extends ComputeUnit{
   override def onExit(): Unit = {}
 
 
-  def onShoot(attack: Attacks) = {
-    data.indicatorRow.animate();
-    data.indicatorCol.animate();
+  def onShoot(attack: Attacks) = attack match {
+    case Attacks.Row => data.indicatorRow.animate();
+    case Attacks.Col => data.indicatorCol.animate();
   }
-
 
 
   override def run(delta: Float): Unit = {

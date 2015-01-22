@@ -1,7 +1,7 @@
 package com.catinthedark.savemedad
 
 import com.catinthedark.savemedad.lib.{RouteMachine, YieldUnit}
-import com.catinthedark.savemedad.units.{Physics, View}
+import com.catinthedark.savemedad.units.{Control, Physics, View}
 
 /**
  * Created by over on 14.12.14.
@@ -12,11 +12,14 @@ class GameState(val machine: RouteMachine) extends YieldUnit[Boolean] {
   override def toString = "Game"
   val shared = new Shared
   val view = new View(shared)
+  val control = new Control
 
+  control.onShoot.addPort(view.onShoot(_))
 
-  val units = Seq(view, new Physics(shared))
+  val units = Seq(view, new Physics(shared), control)
 
   override def onActivate(): Unit = {
+
     units.foreach(_.onActivate())
   }
 

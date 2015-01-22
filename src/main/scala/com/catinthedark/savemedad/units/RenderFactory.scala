@@ -11,7 +11,7 @@ import com.catinthedark.savemedad.Assets.{Textures => Tex}
  */
 object RenderFactory {
 
-  def cooldownAnimation(attack: Attacks): Renderable = {
+  def cooldownAnimation(attack: Attacks): CooldownIndicator = {
     import com.catinthedark.savemedad.common.Const.Timing
 
     val (pos, time, texture) = attack match {

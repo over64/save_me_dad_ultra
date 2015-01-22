@@ -20,7 +20,7 @@ class CooldownIndicator(pos: Vector2, time: Float, texture: Texture) extends Ren
       0, 0,
       texture.getWidth, texture.getHeight, false, false)
 
-    if(stateTime < time)
+    if (stateTime < time)
       stateTime += delta
   }
 
