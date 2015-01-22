@@ -9,17 +9,21 @@ import com.catinthedark.savemedad.lib.Renderable
  * Created by over on 03.01.15.
  */
 class CooldownIndicator(pos: Vector2, time: Float, texture: Texture) extends Renderable {
-  var stateTime = 0f;
+  var stateTime = time;
 
   override def render(delta: Float, batch: SpriteBatch) = {
     batch.draw(texture, pos.x, pos.y,
       texture.getWidth / 2, texture.getHeight / 2,
       texture.getWidth, texture.getHeight,
       1, 1,
-      360 - (stateTime * 1000) * 360 / time,
+      360 - stateTime * 360 / time,
       0, 0,
       texture.getWidth, texture.getHeight, false, false)
 
-    stateTime += delta
+    if(stateTime < time)
+      stateTime += delta
   }
+
+  def animate() =
+    stateTime = 0f;
 }

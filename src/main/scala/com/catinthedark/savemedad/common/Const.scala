@@ -11,7 +11,7 @@ object Const {
     val COOLDOWN_INDICATOR_ROW = new Vector2(1185, 390)
   }
   object Timing {
-    val COOLDOWN_ROW_TIME = 1500
-    val COOLDOWN_COL_TIME = 1500
+    val COOLDOWN_ROW_TIME = 1.5f
+    val COOLDOWN_COL_TIME = 1.5f
   }
 }

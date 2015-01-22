@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.catinthedark.savemedad.common.Attacks._
-import com.catinthedark.savemedad.{Assets, Shared}
+import com.catinthedark.savemedad.{CooldownIndicator, Assets, Shared}
 import com.catinthedark.savemedad.lib.{Renderable, RenderTask, Layer, ComputeUnit}
 import com.catinthedark.savemedad.lib.Magic._
 
@@ -19,14 +19,14 @@ class View(shared: Shared) extends ComputeUnit{
     override def render(delta: Float): Unit = {
       batch.managed { self =>
         self.draw(Assets.Textures.room, 0, 0)
-        data.attackCol.render(delta, self)
-        data.attackRow.render(delta, self)
+        data.indicatorCol.render(delta, self)
+        data.indicatorRow.render(delta, self)
       }
     }
   }
 
-  case class Data(var attackRow: Renderable = RenderFactory.cooldownAnimation(Row),
-                  var attackCol: Renderable = RenderFactory.cooldownAnimation(Col))
+  case class Data(val indicatorRow: CooldownIndicator = RenderFactory.cooldownAnimation(Row),
+                  val indicatorCol: CooldownIndicator = RenderFactory.cooldownAnimation(Col))
 
   val data = new Data
 
@@ -36,7 +36,8 @@ class View(shared: Shared) extends ComputeUnit{
 
 
   def onShoot(attack: Attacks) = {
-
+    data.indicatorRow.animate();
+    data.indicatorCol.animate();
   }
 
 
