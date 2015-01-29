@@ -48,8 +48,8 @@ class RouteMachine {
   }
 
   def doRoute[T](cond: T): Unit = {
-    println(s"begin transition from $currentUCB")
     val from = currentUCB.unit
+    println(s"begin transition from $from")
     from.onExit()
 
     val routeFn = routes.filter(route => {
@@ -58,10 +58,10 @@ class RouteMachine {
     }).map(route => route._2)
       .headOption
       .getOrElse(throw new RuntimeException(s"Could not find route function from $from"))
-
-    currentUCB = new UnitControlBlock(routeFn(cond))
-    currentUCB.unit.onActivate()
-    println(s"end transition to $currentUCB")
+    val to = routeFn(cond)
+    to.onActivate()
+    println(s"end transition to $to")
+    currentUCB = new UnitControlBlock(to)
   }
 
   def addRoute[T >: Any](from: YieldUnit[T], routeFn: T => YieldUnit[Any]): Unit = {
