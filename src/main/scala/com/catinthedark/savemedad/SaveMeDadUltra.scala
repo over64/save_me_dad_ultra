@@ -29,7 +29,7 @@ class SaveMeDadUltra extends Game {
     val t2 = keyAwait("Tutorial2", Assets.Textures.t2)
     val t3 = keyAwait("Tutorial3", Assets.Textures.t3)
     val t4 = keyAwait("Tutorial4", Assets.Textures.t4)
-    val game = new GameState(rm)
+    val game = new GameState(rm, rm.dm)
     val gameOver = keyAwait("GameOver", Assets.Textures.gameOver)
     val gameWin = keyAwait("GameWin", Assets.Textures.gameWin)
 
