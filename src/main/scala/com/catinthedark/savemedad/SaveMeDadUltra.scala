@@ -2,6 +2,7 @@ package com.catinthedark.savemedad
 
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.{Game, Gdx, Input}
+import com.catinthedark.savemedad.common.Const
 import com.catinthedark.savemedad.lib._
 
 /**
@@ -10,7 +11,7 @@ import com.catinthedark.savemedad.lib._
 class SaveMeDadUltra extends Game {
   implicit val rm = new RouteMachine()
 
-  def keyAwait(name: String, tex: Texture, key : Int = Input.Keys.ENTER)(implicit machine: RouteMachine) =
+  def keyAwait(name: String, tex: Texture, key: Int = Input.Keys.ENTER)(implicit machine: RouteMachine) =
     new Stub(name, machine) with TextureState with KeyAwaitState {
       val texture: Texture = tex
       val keycode: Int = key
@@ -52,5 +53,8 @@ class SaveMeDadUltra extends Game {
 
   override def render() = {
     rm.run(Gdx.graphics.getDeltaTime)
+    println(Const.Ints.i)
+//    import com.catinthedark.savemedad.common.Const.Strings.str
+//    println(str)
   }
 }

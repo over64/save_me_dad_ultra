@@ -1,6 +1,7 @@
 package com.catinthedark.savemedad.units
 
 
+import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.{Gdx, Input, InputAdapter}
 import com.catinthedark.savemedad.common.Attacks
 import com.catinthedark.savemedad.common.Attacks.Attacks
@@ -40,5 +41,7 @@ class Control(val dm: DeferredManager) extends ComputeUnit with Deferred {
     Gdx.input.setInputProcessor(null)
   }
 
-  override def run(delta: Float): Unit = {}
+  override def run(delta: Float): Unit = {
+    println(new Vector2(Gdx.input.getX, Gdx.input.getY))
+  }
 }

@@ -10,6 +10,8 @@ unmanagedResourceDirectories in Compile += file("assets")
 
 libraryDependencies ++= Seq(
   "org.scala-lang" % "scala-library" % "2.11.4",
+  "org.scala-lang" % "scala-reflect" % "2.11.4",
+  "org.scala-lang.modules" % "scala-swing_2.11" % "1.0.1",
   "com.badlogicgames.gdx" % "gdx" % "1.4.1",
   "com.badlogicgames.gdx" % "gdx-backend-lwjgl" % "1.4.1" ,
   "com.badlogicgames.gdx" % "gdx-platform" % "1.4.1" classifier "natives-desktop",

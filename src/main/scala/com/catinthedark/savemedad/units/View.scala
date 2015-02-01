@@ -9,6 +9,8 @@ import com.catinthedark.savemedad.{CooldownIndicator, Assets, Shared}
 import com.catinthedark.savemedad.lib.{Renderable, RenderTask, Layer, ComputeUnit}
 import com.catinthedark.savemedad.lib.Magic._
 
+import scala.collection.mutable.ListBuffer
+
 /**
  * Created by over on 02.01.15.
  */
@@ -27,7 +29,8 @@ class View(shared: Shared) extends ComputeUnit {
   }
 
   case class Data(val indicatorRow: CooldownIndicator = RenderFactory.cooldownAnimation(Row),
-                  val indicatorCol: CooldownIndicator = RenderFactory.cooldownAnimation(Col))
+                  val indicatorCol: CooldownIndicator = RenderFactory.cooldownAnimation(Col),
+                  val renderTasks: ListBuffer[RenderTask] = ListBuffer[RenderTask]())
 
   val data = new Data
 
