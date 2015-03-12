@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.catinthedark.savemedad.common.Attacks
 import com.catinthedark.savemedad.common.Attacks._
 import com.catinthedark.savemedad.{CooldownIndicator, Assets, Shared}
-import com.catinthedark.savemedad.lib.{Renderable, RenderTask, Layer, ComputeUnit}
+import com.catinthedark.savemedad.lib._
 import com.catinthedark.savemedad.lib.Magic._
 
 import scala.collection.mutable.ListBuffer
@@ -14,7 +14,7 @@ import scala.collection.mutable.ListBuffer
 /**
  * Created by over on 02.01.15.
  */
-class View(shared: Shared) extends ComputeUnit[Unit] {
+class View(shared: Shared) extends SimpleUnit {
 
   val roomAndHUD = new Layer {
     val batch = new SpriteBatch
@@ -45,7 +45,7 @@ class View(shared: Shared) extends ComputeUnit[Unit] {
   }
 
 
-  override def run(delta: Float): Option[Unit] = {
+  override def run(delta: Float) = {
     Gdx.gl.glClearColor(0, 0, 0, 0)
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
     roomAndHUD.render(delta)

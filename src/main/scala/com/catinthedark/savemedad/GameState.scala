@@ -6,7 +6,7 @@ import com.catinthedark.savemedad.units.{Control, Physics, View}
 /**
  * Created by over on 14.12.14.
  */
-class GameState extends ComputeUnit[Boolean] with Deferred {
+class GameState extends YieldUnit[Boolean] with Deferred {
 
   override def toString = "Game"
   val shared = new Shared

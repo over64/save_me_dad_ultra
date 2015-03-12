@@ -3,7 +3,7 @@ package com.catinthedark.savemedad.lib
 /**
  * Created by over on 13.12.14.
  */
-abstract class Stub(name: String) extends ComputeUnit[Unit] {
+abstract class Stub(name: String) extends YieldUnit[Unit] {
 
   override def toString = name
 

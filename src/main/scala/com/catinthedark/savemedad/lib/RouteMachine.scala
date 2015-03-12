@@ -8,8 +8,8 @@ import scala.collection.mutable
 
 
 class RouteMachine {
-  private val routes = mutable.ListBuffer[(ComputeUnit[Any], Any => ComputeUnit[Any])]()
-  private var current: ComputeUnit[Any] = _
+  private val routes = mutable.ListBuffer[(YieldUnit[Any], Any => YieldUnit[Any])]()
+  private var current: YieldUnit[Any] = _
 
   def doRoute[T](cond: T): Unit = {
     val from = current
@@ -28,11 +28,11 @@ class RouteMachine {
     current = to
   }
 
-  def addRoute[T >: Any](from: ComputeUnit[T], routeFn: T => ComputeUnit[Any]): Unit = {
+  def addRoute[T >: Any](from: YieldUnit[T], routeFn: T => YieldUnit[Any]): Unit = {
     routes += ((from, routeFn));
   }
 
-  def start(unit: ComputeUnit[Any]) = {
+  def start(unit: YieldUnit[Any]) = {
     current = unit
     unit.onActivate()
   }

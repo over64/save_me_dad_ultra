@@ -5,13 +5,13 @@ import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.{Gdx, Input, InputAdapter}
 import com.catinthedark.savemedad.common.Attacks
 import com.catinthedark.savemedad.common.Attacks.Attacks
-import com.catinthedark.savemedad.lib.{Deferred, ComputeUnit, Pipe}
+import com.catinthedark.savemedad.lib.{SimpleUnit, Deferred, YieldUnit, Pipe}
 import com.catinthedark.savemedad.common.Const.Timing._
 
 /**
  * Created by over on 22.01.15.
  */
-class Control extends ComputeUnit[Unit] with Deferred {
+class Control extends SimpleUnit with Deferred {
 
   val onShoot = new Pipe[Attacks];
   var canShootCol = true
@@ -41,8 +41,7 @@ class Control extends ComputeUnit[Unit] with Deferred {
     Gdx.input.setInputProcessor(null)
   }
 
-  override def run(delta: Float): Option[Unit] = {
+  override def run(delta: Float) = {
     //println(new Vector2(Gdx.input.getX, Gdx.input.getY))
-    None
   }
 }
