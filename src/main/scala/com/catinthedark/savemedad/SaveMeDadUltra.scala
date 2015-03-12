@@ -12,13 +12,13 @@ class SaveMeDadUltra extends Game {
   implicit val rm = new RouteMachine()
 
   def keyAwait(name: String, tex: Texture, key: Int = Input.Keys.ENTER)(implicit machine: RouteMachine) =
-    new Stub(name, machine) with TextureState with KeyAwaitState {
+    new Stub(name) with TextureState with KeyAwaitState {
       val texture: Texture = tex
       val keycode: Int = key
     }
 
   def delayed(name: String, tex: Texture, _delay: Float)(implicit machine: RouteMachine) =
-    new Stub(name, machine) with TextureState with DelayState {
+    new Stub(name) with TextureState with DelayState {
       val texture: Texture = tex
       val delay: Float = _delay
     }
@@ -30,7 +30,7 @@ class SaveMeDadUltra extends Game {
     val t2 = keyAwait("Tutorial2", Assets.Textures.t2)
     val t3 = keyAwait("Tutorial3", Assets.Textures.t3)
     val t4 = keyAwait("Tutorial4", Assets.Textures.t4)
-    val game = new GameState(rm, rm.dm)
+    val game = new GameState()
     val gameOver = keyAwait("GameOver", Assets.Textures.gameOver)
     val gameWin = keyAwait("GameWin", Assets.Textures.gameWin)
 
@@ -53,8 +53,8 @@ class SaveMeDadUltra extends Game {
 
   override def render() = {
     rm.run(Gdx.graphics.getDeltaTime)
-    println(Const.Ints.i)
-//    import com.catinthedark.savemedad.common.Const.Strings.str
-//    println(str)
+    //println(Const.Ints.i)
+    //import com.catinthedark.savemedad.common.Const.Strings.str
+    //println(str)
   }
 }

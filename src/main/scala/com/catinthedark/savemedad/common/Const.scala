@@ -1,10 +1,6 @@
 package com.catinthedark.savemedad.common
 
 import com.badlogic.gdx.math.Vector2
-import com.catinthedark.tweaker.Tweakable
-import com.sun.istack.internal.NotNull
-
-import scala.beans.BeanProperty
 
 /**
  * Created by over on 03.01.15.
@@ -27,7 +23,6 @@ object Const {
   }
 
   object Strings {
-    @Tweakable
     var str = "Hello, World!"
   }
 

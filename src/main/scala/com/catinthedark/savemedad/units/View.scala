@@ -14,7 +14,7 @@ import scala.collection.mutable.ListBuffer
 /**
  * Created by over on 02.01.15.
  */
-class View(shared: Shared) extends ComputeUnit {
+class View(shared: Shared) extends ComputeUnit[Unit] {
 
   val roomAndHUD = new Layer {
     val batch = new SpriteBatch
@@ -45,9 +45,10 @@ class View(shared: Shared) extends ComputeUnit {
   }
 
 
-  override def run(delta: Float): Unit = {
+  override def run(delta: Float): Option[Unit] = {
     Gdx.gl.glClearColor(0, 0, 0, 0)
     Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
     roomAndHUD.render(delta)
+    None
   }
 }

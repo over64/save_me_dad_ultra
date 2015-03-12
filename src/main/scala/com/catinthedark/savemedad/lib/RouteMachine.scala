@@ -1,54 +1,18 @@
 package com.catinthedark.savemedad.lib
 
-import java.util.concurrent.LinkedBlockingQueue
-
 import scala.collection.mutable
 
 /**
  * Created by over on 13.12.14.
  */
 
-class UnitControlBlock(val unit: ComputeUnit) {
-  val queue = new LinkedBlockingQueue[() => Unit]()
-
-  def push(task: () => Unit): Unit = queue.put(task)
-
-  def run(delta: Float): Unit = {
-    Stream.continually {
-      Option(queue.poll())
-    }.takeWhile {
-      _ match {
-        case Some(f) => f(); true
-        case None => false
-      }
-    }
-
-    unit.run(delta)
-  }
-}
 
 class RouteMachine {
-  private val routes = mutable.ListBuffer[(YieldUnit[Any], (Any => YieldUnit[Any]))]()
-  private var currentUCB: UnitControlBlock = _
-
-  implicit def fnToRunnable(f: () => Unit): Runnable = {
-    new Runnable {
-      override def run(): Unit = f()
-    }
-  }
-
-  val dm: DeferredManager = new DeferredManager {
-    override def schedule(delay: Float, f: () => Unit): Unit = {
-      new Thread(() => {
-        Thread.sleep((delay * 1000).toLong)
-        currentUCB.push(f)
-      }).start()
-
-    }
-  }
+  private val routes = mutable.ListBuffer[(ComputeUnit[Any], Any => ComputeUnit[Any])]()
+  private var current: ComputeUnit[Any] = _
 
   def doRoute[T](cond: T): Unit = {
-    val from = currentUCB.unit
+    val from = current
     println(s"begin transition from $from")
     from.onExit()
 
@@ -61,17 +25,22 @@ class RouteMachine {
     val to = routeFn(cond)
     to.onActivate()
     println(s"end transition to $to")
-    currentUCB = new UnitControlBlock(to)
+    current = to
   }
 
-  def addRoute[T >: Any](from: YieldUnit[T], routeFn: T => YieldUnit[Any]): Unit = {
+  def addRoute[T >: Any](from: ComputeUnit[T], routeFn: T => ComputeUnit[Any]): Unit = {
     routes += ((from, routeFn));
   }
 
-  def start(unit: ComputeUnit) = {
-    currentUCB = new UnitControlBlock(unit)
-    currentUCB.unit.onActivate()
+  def start(unit: ComputeUnit[Any]) = {
+    current = unit
+    unit.onActivate()
   }
 
-  def run(delta: Float): Unit = currentUCB.run(delta)
+  def run(delta: Float): Unit = {
+    current.run(delta) match {
+      case Some(res) => doRoute(res)
+      case _ =>
+    }
+  }
 }
