@@ -9,15 +9,15 @@ import com.catinthedark.savemedad.lib._
  * Created by over on 13.12.14.
  */
 class SaveMeDadUltra extends Game {
-  implicit val rm = new RouteMachine()
+  val rm = new RouteMachine()
 
-  def keyAwait(name: String, tex: Texture, key: Int = Input.Keys.ENTER)(implicit machine: RouteMachine) =
+  def keyAwait(name: String, tex: Texture, key: Int = Input.Keys.ENTER) =
     new Stub(name) with TextureState with KeyAwaitState {
       val texture: Texture = tex
       val keycode: Int = key
     }
 
-  def delayed(name: String, tex: Texture, _delay: Float)(implicit machine: RouteMachine) =
+  def delayed(name: String, tex: Texture, _delay: Float) =
     new Stub(name) with TextureState with DelayState {
       val texture: Texture = tex
       val delay: Float = _delay

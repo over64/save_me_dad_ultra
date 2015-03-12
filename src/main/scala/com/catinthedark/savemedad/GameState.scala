@@ -12,13 +12,16 @@ class GameState extends YieldUnit[Boolean] with Deferred {
   val shared = new Shared
   val view = new View(shared)
   val control = new Control()
+  val units = Seq(control, view)
 
-  control.onShoot.addPort(view.onShoot(_))
+  control.onShoot + (view.onShoot(_))
+  control.onPause + (onPause(_))
 
-  val units = Seq(view, new Physics(shared), control)
+  var paused = false
+
+  def onPause(ignored: Unit): Unit = paused = !paused
 
   override def onActivate(): Unit = {
-
     units.foreach(_.onActivate())
   }
 
@@ -27,7 +30,8 @@ class GameState extends YieldUnit[Boolean] with Deferred {
   }
 
   override def run(delta: Float): Option[Boolean] = {
-    units.foreach(_.run(delta))
+    if (!paused)
+      units.foreach(_.run(delta))
     None
   }
 }

@@ -8,7 +8,7 @@ import scala.collection.mutable
 class Pipe[T] {
   val ports = new mutable.ListBuffer[T => Unit]
 
-  def addPort(port: T => Unit) = ports += port
+  def +(port: T => Unit) = ports += port
 
-  def write(msg: T) = ports.foreach(_(msg))
+  def apply(msg: T) = ports.foreach(_(msg))
 }
