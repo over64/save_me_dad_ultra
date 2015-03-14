@@ -14,7 +14,7 @@ import scala.collection.mutable.ListBuffer
 /**
  * Created by over on 02.01.15.
  */
-class View(shared: Shared) extends SimpleUnit {
+class View() extends SimpleUnit {
 
   val roomAndHUD = new Layer {
     val batch = new SpriteBatch

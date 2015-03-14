@@ -6,12 +6,14 @@ import com.catinthedark.savemedad.units.{Control, Physics, View}
 /**
  * Created by over on 14.12.14.
  */
-class GameState extends YieldUnit[Boolean] with Deferred {
+class GameState extends YieldUnit[Boolean]{
 
   override def toString = "Game"
   val shared = new Shared
-  val view = new View(shared)
-  val control = new Control()
+  val view = new View
+  val control = new Control with Interval {
+    override val interval = 0.2f
+  }
   val units = Seq(control, view)
 
   control.onShoot + (view.onShoot(_))

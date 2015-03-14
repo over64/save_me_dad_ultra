@@ -1,24 +1,23 @@
 package com.catinthedark.savemedad.units
 
 
-import com.badlogic.gdx.math.Vector2
 import com.badlogic.gdx.{Gdx, Input, InputAdapter}
 import com.catinthedark.savemedad.common.Attacks
 import com.catinthedark.savemedad.common.Attacks.Attacks
-import com.catinthedark.savemedad.lib.{SimpleUnit, Deferred, Pipe}
 import com.catinthedark.savemedad.common.Const.Timing._
+import com.catinthedark.savemedad.lib._
 
 /**
  * Created by over on 22.01.15.
  */
-class Control extends SimpleUnit with Deferred {
-
+class Control extends DeferredUnit {
+  val interval = 1f
   val onShoot = new Pipe[Attacks]
   val onPause = new Pipe[Unit]
   var canShootCol = true
   var canShootRow = true
 
-  var paused = false;
+  var paused = false
 
   override def onActivate(): Unit = {
     Gdx.input.setInputProcessor(new InputAdapter {
@@ -36,11 +35,11 @@ class Control extends SimpleUnit with Deferred {
         if (!paused)
           button match {
             case Input.Buttons.LEFT if canShootCol =>
-              canShootCol = false;
+              canShootCol = false
               onShoot(Attacks.Col)
               defer(COOLDOWN_COL_TIME, () => canShootCol = true)
             case Input.Buttons.RIGHT if canShootRow =>
-              canShootRow = false;
+              canShootRow = false
               onShoot(Attacks.Row)
               defer(COOLDOWN_ROW_TIME, () => canShootRow = true)
             case _ =>
@@ -56,6 +55,8 @@ class Control extends SimpleUnit with Deferred {
   }
 
   override def run(delta: Float) = {
-    println(new Vector2(Gdx.input.getX, Gdx.input.getY))
+    if (Gdx.input.isKeyPressed(Input.Keys.L))
+      println("L pressed")
+    //println(new Vector2(Gdx.input.getX, Gdx.input.getY))
   }
 }
