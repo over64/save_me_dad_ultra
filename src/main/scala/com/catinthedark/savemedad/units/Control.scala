@@ -10,8 +10,7 @@ import com.catinthedark.savemedad.lib._
 /**
  * Created by over on 22.01.15.
  */
-class Control extends DeferredUnit {
-  val interval = 1f
+abstract class Control extends SimpleUnit with Deferred{
   val onShoot = new Pipe[Attacks]
   val onPause = new Pipe[Unit]
   var canShootCol = true
