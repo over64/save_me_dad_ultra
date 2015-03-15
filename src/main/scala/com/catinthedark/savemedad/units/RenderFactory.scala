@@ -1,39 +1,38 @@
 package com.catinthedark.savemedad.units
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.math.Vector2
-import com.catinthedark.savemedad.CooldownIndicator
-import com.catinthedark.savemedad.common.Attacks._
-import com.catinthedark.savemedad.lib.{RenderTask, Renderable}
-import com.catinthedark.savemedad.common.Const.UI
 import com.catinthedark.savemedad.Assets.{Textures => Tex}
+import com.catinthedark.savemedad.common.Attacks._
+import com.catinthedark.savemedad.common.Const._
+import com.catinthedark.savemedad.lib.animation._
 
 /**
  * Created by over on 02.01.15.
  */
 object RenderFactory {
 
-  def cooldownAnimation(attack: Attacks): CooldownIndicator = {
-    import com.catinthedark.savemedad.common.Const.Timing
+  def cooldownAnimation(attack: Attacks): TriggeredAnimation = {
 
-    val (pos, time, texture) = attack match {
+    val (pos, _time, tex) = attack match {
       case Row => (UI.COOLDOWN_INDICATOR_ROW, Timing.COOLDOWN_ROW_TIME, Tex.cooldownIndicatorRow)
       case Col => (UI.COOLDOWN_INDICATOR_COL, Timing.COOLDOWN_COL_TIME, Tex.cooldownIndicatorCol)
     }
 
-    new CooldownIndicator(pos, time, texture)
-  }
-
-  def dadFistAttack(attack: Attacks, pos: Vector2, onDone: => Unit): RenderTask = {
-    import com.catinthedark.savemedad.common.Const.Timing
-
-//    val texture = attack match {
-//      case Row => Tex.
-//    }
-    new RenderTask(Timing.FIST_ANIMATION_TIME, onDone) {
-      override def renderFn(delta: Float, batch: SpriteBatch): Unit = {
-
-      }
+    new RotateAnimation(tex, pos, (angle, delta) => angle + 360.0f * delta / 1.5f)
+      with TimingAnimation with TriggeredAnimation {
+      override val time = _time
     }
   }
+
+  def dadFistAnimation(attack: Attacks, pos: Vector2): Animation = attack match {
+    case Row => new FlatAnimation(Tex.dadFistRow, pos, (start, vec, arg, delay) => {
+      vec.x = start.x - Math.sin(arg * 3.14 / Timing.fistAnimation).toFloat * 20
+      vec
+    })
+    case Col => new FlatAnimation(Tex.dadFistCol, pos, (start, vec, arg, delay) => {
+      vec.y = start.y + Math.sin(arg * 3.14 / Timing.fistAnimation).toFloat * 20
+      vec
+    })
+  }
+
 }

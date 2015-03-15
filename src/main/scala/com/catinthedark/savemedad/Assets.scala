@@ -1,4 +1,5 @@
 package com.catinthedark.savemedad
+
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Texture
 
@@ -6,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture
  * Created by over on 13.12.14.
  */
 object Assets {
+
   object Textures {
     val logo = new Texture(Gdx.files.internal("textures/logo.png"))
 
@@ -21,6 +23,8 @@ object Assets {
     val cooldownIndicatorRow = new Texture(Gdx.files.internal("textures/punch_ready_row.png"))
     val cooldownIndicatorCol = new Texture(Gdx.files.internal("textures/punch_ready_col.png"))
 
-
+    val dadFistCol = new Texture(Gdx.files.internal("textures/fist_top.png"))
+    val dadFistRow = new Texture(Gdx.files.internal("textures/fist_left.png"))
   }
+
 }

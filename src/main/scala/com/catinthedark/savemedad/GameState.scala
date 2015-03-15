@@ -10,7 +10,7 @@ class GameState extends YieldUnit[Boolean] {
 
   override def toString = "Game"
   val shared = new Shared
-  val view = new View
+  val view = new View with LocalDeferred
   val control = new Control with LocalDeferred with Interval {
     override val interval = 0.2f
   }
